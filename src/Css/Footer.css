@@ -1,0 +1,192 @@
+/* Walmart-style Footer */
+.footer {
+  position: relative;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-family: "Bogle", sans-serif;
+}
+
+/* Feedback Section */
+.footer__feedback {
+  background-color: #f7f7f7;
+  padding: 24px 0;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer__feedbackText {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  color: #333;
+}
+
+.footer__feedbackButton {
+  background-color: transparent;
+  border: 2px solid #333;
+  color: #333;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.footer__feedbackButton:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Back to Top */
+.footer__backToTop {
+  display: block;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 13px;
+  background-color: #e6e6e6;
+  color: #333;
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.footer__backToTop:hover {
+  background-color: #d4d4d4;
+}
+
+/* Footer Links Container */
+.footer__linkContainer {
+  padding: 40px 20px 50px;
+  width: 100%;
+  display: flex;
+  font-size: 13px;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  background-color: #004c91; /* Walmart blue */
+  min-height: 200px;
+  justify-content: center;
+  gap: 60px;
+  margin: 0 auto;
+}
+
+.footer__links {
+  text-align: left;
+  flex: 1;
+  min-width: 180px;
+}
+
+.footer__linksTitle {
+  font-size: 14px;
+  margin: 0 0 16px;
+  white-space: nowrap;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.footer__link {
+  margin: 0 0 8px;
+  color: #ffffff;
+  white-space: normal;
+  font-size: 13px;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+  line-height: 1.4;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+/* Copyright Section */
+.footer__copyright {
+  background-color: #004c91;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer__copyright p {
+  margin: 0;
+  font-size: 12px;
+  color: #ffffff;
+  opacity: 0.8;
+  line-height: 1.4;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer__linkContainer {
+    gap: 40px;
+    padding: 30px 20px 40px;
+  }
+  
+  .footer__links {
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer__linkContainer {
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 20px;
+    text-align: center;
+  }
+  
+  .footer__links {
+    text-align: center;
+    min-width: auto;
+  }
+  
+  .footer__linksTitle {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .footer__link {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .footer__feedback {
+    padding: 20px 16px;
+  }
+  
+  .footer__feedbackText {
+    font-size: 14px;
+  }
+  
+  .footer__copyright {
+    padding: 16px;
+  }
+  
+  .footer__copyright p {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__linkContainer {
+    padding: 20px 16px;
+  }
+  
+  .footer__feedback {
+    padding: 16px 12px;
+  }
+  
+  .footer__feedbackButton {
+    padding: 6px 20px;
+    font-size: 13px;
+  }
+}

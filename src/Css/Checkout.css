@@ -1,0 +1,598 @@
+/*
+.checkout {
+  background-color: #f7f7f7;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.checkout__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.checkout__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkout__title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #004c91;
+  margin: 0;
+}
+
+.checkout__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.checkout__clear,
+.checkout__save {
+  background: none;
+  border: 1px solid #004c91;
+  color: #004c91;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.checkout__clear:hover,
+.checkout__save:hover {
+  background-color: #004c91;
+  color: white;
+}
+
+.checkout__content {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.checkout__left {
+  flex: 2;
+}
+
+.checkout__right {
+  flex: 1;
+  max-width: 350px;
+}
+
+.checkout__items {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.checkout__items-header {
+  background-color: #0071ce;
+  color: white;
+  padding: 12px 20px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.checkout__delivery-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkout__empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.checkout__empty h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.checkout__empty p {
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+
+.checkout__shop-now {
+  display: inline-block;
+  background-color: #0071ce;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.checkout__shop-now:hover {
+  background-color: #004c91;
+}
+
+.checkout__summary {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.checkout__promo {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.checkout__promo h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.checkout__offer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #f0f8ff;
+  border-radius: 6px;
+  border-left: 4px solid #0071ce;
+}
+
+.checkout__offer-icon {
+  font-size: 20px;
+}
+
+.checkout__offer p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+}
+
+.checkout__offer small {
+  color: #666;
+  font-size: 12px;
+}
+
+.checkout__recommendations {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.checkout__recommendations h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.checkout__recommended-items {
+ 
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-style: italic;
+}
+
+.checkout__recommended-items::before {
+  content: "Recommended products would appear here";
+}
+
+@media (max-width: 768px) {
+  .checkout__content {
+    flex-direction: column;
+  }
+  
+  .checkout__right {
+    max-width: none;
+  }
+  
+  .checkout__header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .checkout__actions {
+    justify-content: center;
+  }
+  
+  .checkout__summary {
+    position: static;
+  }
+}
+
+
+.checkout__ad {
+  display: none;
+}
+
+.ecofriendly {
+  color: #0071ce;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.checkout__center {
+  width: 100%;
+  text-align: center;
+}
+  */
+
+  /* Enhanced Checkout Styles */
+
+.checkout {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.checkout__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.checkout__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.checkout__title {
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.checkout__actions {
+  display: flex;
+  gap: 15px;
+}
+
+.checkout__clear,
+.checkout__save {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.checkout__clear:hover {
+  background-color: #ff4444;
+  color: white;
+  border-color: #ff4444;
+}
+
+.checkout__save:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.checkout__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.checkout__left {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.checkout__items-header {
+  background: #e8f5e8;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #28a745;
+}
+
+.checkout__delivery-info {
+  color: #155724;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.checkout__empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.checkout__empty h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.checkout__empty p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.checkout__shop-now {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.checkout__shop-now:hover {
+  background: #0056b3;
+}
+
+.checkout__right {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.checkout__promo {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.checkout__promo h3 {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.checkout__offer {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8f9ff;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e3e8ff;
+}
+
+.checkout__offer-icon {
+  font-size: 20px;
+}
+
+.checkout__offer p {
+  margin: 0 0 4px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.checkout__offer small {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Recommendations Section */
+.checkout__recommendations {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.checkout__recommendations h3 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.checkout__recommended-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Recommendation Card Styles */
+.recommendation-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.recommendation-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.recommendation-card__image-container {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.recommendation-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recommendation-card:hover .recommendation-card__image {
+  transform: scale(1.05);
+}
+
+.recommendation-card__heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.recommendation-card__heart:hover {
+  background: rgba(255,255,255,1);
+  transform: scale(1.1);
+}
+
+.recommendation-card__discount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.recommendation-card__eco-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: #28a745;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.recommendation-card__content {
+  padding: 16px;
+}
+
+.recommendation-card__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.recommendation-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.recommendation-card__rating-text {
+  font-size: 12px;
+  color: #666;
+  margin-left: 4px;
+}
+
+.recommendation-card__price-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.recommendation-card__price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.recommendation-card__original-price {
+  font-size: 14px;
+  color: #666;
+  text-decoration: line-through;
+}
+
+.recommendation-card__add-btn {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recommendation-card__add-btn:hover {
+  background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .checkout__content {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkout__header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .checkout__actions {
+    justify-content: center;
+  }
+  
+  .checkout__recommended-items {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .checkout__right {
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout {
+    padding: 10px;
+  }
+  
+  .checkout__recommended-items {
+    grid-template-columns: 1fr;
+  }
+}
+
