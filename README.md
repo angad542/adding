@@ -1,18 +1,11 @@
-# Green Commerce with Amazon
+# Green Commerce with Walmart
 
-## 🏆 WINNERS OF HACKON WITH AMAZON SEASON 3! 🏆
-### Team Name: THE VOYAGERS
 ### Team Members:
 - Chahat Garg
 - Parth Adlakha
 - Guramrit Singh
 - Angad Singh Marwaha
 
-### Website: 
-<a href ="http://greenovation-site.s3-website.ap-south-1.amazonaws.com/" target="_blank">Green-Commerce </a>
-
-### Idea Submission:
-[Idea](https://drive.google.com/file/d/1A33DEgFVyOefUFPGKBImGvQGwiPUcoru/view?usp=drive_link)
 
 ## PROJECT OVERVIEW: 
 
