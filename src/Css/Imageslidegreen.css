@@ -1,8 +1,205 @@
-.main {
+.image__slider {
+  position: relative;
+  margin: 20px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(76,175,80,0.3);
+}
+
+.slide__container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+.slide__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.slide__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(46,125,50,0.8) 0%, rgba(76,175,80,0.6) 50%, rgba(139,195,74,0.4) 100%);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  position: relative; /* Make .main relative to position child elements */
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slide__container:hover .slide__overlay {
+  opacity: 1;
+}
+
+.slide__text {
+  text-align: center;
+  color: white;
+  padding: 40px;
+  transform: translateY(20px);
+  transition: transform 0.5s ease;
+}
+
+.slide__container:hover .slide__text {
+  transform: translateY(0);
+}
+
+.slide__title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  animation: fadeInUp 0.6s ease;
+}
+
+.slide__subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 24px;
+  opacity: 0.9;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.slide__cta {
+  background: linear-gradient(135deg, #FFF 0%, #F5F5F5 100%);
+  color: #2E7D32;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease 0.4s both;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+}
+
+.slide__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,255,255,0.4);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, rgba(46,125,50,0.9) 0%, rgba(76,175,80,0.9) 100%);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.3);
+  z-index: 10;
+}
+
+.nav__btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 25px rgba(46,125,50,0.4);
+}
+
+.prev__btn {
+  left: 20px;
+}
+
+.next__btn {
+  right: 20px;
+}
+
+.nav__arrow {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%);
+}
+
+.slide__indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255,255,255,0.8);
+}
+
+.slide__controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+}
+
+.autoplay__btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.autoplay__btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.05);
+}
+
+.slide__counter {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: rgba(0,0,0,0.3);
+  padding: 6px 12px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
 }
 
 .image-container {
@@ -17,13 +214,25 @@
 .prev-buttong,
 .next-buttong {
   position: absolute;
-  top: 100%; /* Vertically center the buttons */
+  top: 50%;
   transform: translateY(-50%);
-  background: transparent;
+  background: linear-gradient(135deg, rgba(76,175,80,0.9) 0%, rgba(139,195,74,0.9) 100%);
   border: none;
   cursor: pointer;
   font-size: 24px;
-  z-index: 1; /* Place buttons above the image */
+  z-index: 2;
+  padding: 15px;
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+}
+
+.prev-buttong:hover,
+.next-buttong:hover {
+  background: linear-gradient(135deg, rgba(76,175,80,1) 0%, rgba(139,195,74,1) 100%);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 25px rgba(76,175,80,0.4);
 }
 
 .prev-buttong {

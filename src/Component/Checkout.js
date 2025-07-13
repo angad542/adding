@@ -5,11 +5,12 @@ import CheckoutProduct from "./CheckoutProduct.js";
 import { useStateValue } from '../StateProvider.js';
 import { Link } from "react-router-dom";
 import SustainabilityDashboard from './SustainabilityDashboard';
+import { getBasketTotal } from "./reducer.js";
 
 
 // Your Gemini API configuration
 const GEMINI_API_KEY = "AIzaSyBzf276Tr5sgWJcp29tZSh0kEi7uFlvnOA";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 function RecommendationCard({ product, onAddToCart }) {
   const [isLiked, setIsLiked] = useState(false);
@@ -488,8 +489,8 @@ function Checkout() {
           </div>
           
           <div className="checkout__right">
+            <Subtotal />
             <div className="checkout__summary">
-              <Subtotal />
               <div className="checkout__promo">
                 <h3>Available offers</h3>
                 <div className="checkout__offer">
@@ -497,6 +498,13 @@ function Checkout() {
                   <div>
                     <p><strong>GreenPlus</strong> members get free delivery + 10% off eco items</p>
                     <small>Try free for 30 days</small>
+                  </div>
+                </div>
+                <div className="checkout__offer checkout__eco-offer">
+                  <span className="checkout__offer-icon">🌱</span>
+                  <div>
+                    <p><strong>Carbon Neutral Shipping</strong> - We offset 100% of shipping emissions</p>
+                    <small>Free with all orders</small>
                   </div>
                 </div>
               </div>

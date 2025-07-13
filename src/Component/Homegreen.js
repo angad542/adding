@@ -1,35 +1,122 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../Css/Homegreen.css";
 import Product from "./Productgreen";
 import ImageSliderGreen from "./Imageslidegreen";
 import { Link } from "react-router-dom";
 
 function Homegreen() {
+  const [currentImpact, setCurrentImpact] = useState(0);
+  const [animatedStats, setAnimatedStats] = useState({
+    co2: 0,
+    users: 0,
+    recyclable: 0
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimatedStats(prev => ({
+        co2: prev.co2 < 2500000 ? prev.co2 + 25000 : 2500000,
+        users: prev.users < 50000 ? prev.users + 500 : 50000,
+        recyclable: prev.recyclable < 95 ? prev.recyclable + 1 : 95
+      }));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const impactMessages = [
+    "🌱 Together, we're planting the seeds of change",
+    "♻️ Every purchase creates a ripple of sustainability",
+    "🌍 Building a greener tomorrow, one product at a time",
+    "🌿 Your choices shape our planet's future"
+  ];
+
+  useEffect(() => {
+    const messageInterval = setInterval(() => {
+      setCurrentImpact(prev => (prev + 1) % impactMessages.length);
+    }, 3000);
+
+    return () => clearInterval(messageInterval);
+  }, []);
+
   return (
     <>
     <div className="homeg">
       <div className="home__containerg">
-        {/* <img
-          className="home__imageg"
-          src="https://github.com/Night-Howler14/Project-HackOn/blob/main/Green.png?raw=true"
-          alt=""
-        /> */}
         <ImageSliderGreen/>
+        
+        {/* Real-time Impact Banner */}
+        <div className="impact__banner">
+          <div className="impact__content">
+            <div className="impact__message">
+              {impactMessages[currentImpact]}
+            </div>
+            <div className="impact__live">
+              <span className="live__indicator">🔴 LIVE</span>
+              <span>Real-time environmental impact</span>
+            </div>
+          </div>
         </div>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
+        
+        {/* Enhanced Sustainability Hero Section */}
+        <div className="sustainability__hero">
+          <div className="sustainability__content">
+            <div className="sustainability__text">
+              <h1>🌱 Shop Sustainably with Greenovation</h1>
+              <p>Every purchase makes a difference. Join us in building a sustainable future with eco-friendly products that reduce your carbon footprint.</p>
+              
+              {/* Interactive Action Buttons */}
+              <div className="hero__actions">
+                <Link to="/sustainability" className="action__btn primary">
+                  🌍 Explore Impact
+                </Link>
+                <Link to="/green-rewards" className="action__btn secondary">
+                  🏆 Earn Green Points
+                </Link>
+              </div>
+              
+              <div className="sustainability__stats">
+                <div className="stat__item">
+                  <span className="stat__number">{(animatedStats.co2 / 1000000).toFixed(1)}M+</span>
+                  <span className="stat__label">CO₂ Reduced (kg)</span>
+                  <div className="stat__progress">
+                    <div className="progress__bar" style={{width: `${(animatedStats.co2 / 2500000) * 100}%`}}></div>
+                  </div>
+                </div>
+                <div className="stat__item">
+                  <span className="stat__number">{(animatedStats.users / 1000).toFixed(0)}K+</span>
+                  <span className="stat__label">Eco Warriors</span>
+                  <div className="stat__progress">
+                    <div className="progress__bar" style={{width: `${(animatedStats.users / 50000) * 100}%`}}></div>
+                  </div>
+                </div>
+                <div className="stat__item">
+                  <span className="stat__number">{animatedStats.recyclable}%</span>
+                  <span className="stat__label">Recyclable Products</span>
+                  <div className="stat__progress">
+                    <div className="progress__bar" style={{width: `${animatedStats.recyclable}%`}}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="sustainability__visual">
+              <div className="eco__circle">
+                <span>🌍</span>
+                <div className="pulse__ring"></div>
+                <div className="pulse__ring pulse__ring--delayed"></div>
+              </div>
+              <div className="floating__elements">
+                <span className="float__item">🌿</span>
+                <span className="float__item">♻️</span>
+                <span className="float__item">🌱</span>
+                <span className="float__item">🍃</span>
+                <span className="float__item">🌳</span>
+                <span className="float__item">💚</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div className="home__rowg">
     <Product
@@ -73,7 +160,30 @@ function Homegreen() {
   </div>
 
 
-    <img src="../images/badgebanner.png" alt="" width="100%" />
+    <div className="sustainability__banner">
+      <div className="banner__content">
+        <h2>🏆 Eco-Certified Products</h2>
+        <p>Every product on this page is verified for sustainability and environmental impact</p>
+        <div className="certification__badges">
+          <div className="cert__badge">
+            <span>🌿</span>
+            <small>Organic</small>
+          </div>
+          <div className="cert__badge">
+            <span>♻️</span>
+            <small>Recyclable</small>
+          </div>
+          <div className="cert__badge">
+            <span>🌱</span>
+            <small>Biodegradable</small>
+          </div>
+          <div className="cert__badge">
+            <span>🌍</span>
+            <small>Carbon Neutral</small>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <div className="home__rowg">
     <Product

@@ -1,24 +1,95 @@
 .checkout__ad {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .checkout {
-    display: flex;
-    padding: 20px;
-    background-color: white;
-    height: max-content;
-  }
-  .checkout__title {
-    margin-right: 10px;
-    padding: 10px;
-    border-bottom: 1px solid lightgray;
-  }
-  .ecofriendly {
-    color: #62be3a;
-    font-weight: 700;
-    font-size: 20px;
-  }
-  .checkout__center {
-    width: 100%;
-    text-align: center;
-  }
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.checkout {
+  display: flex;
+  padding: 30px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+}
+
+.checkout__left {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  padding: 40px;
+}
+
+.checkout__title {
+  margin: 0 0 30px 0;
+  padding: 0 0 20px 0;
+  border-bottom: 3px solid #047857;
+  font-size: 2.2rem;
+  color: #047857;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+.checkout__title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(135deg, #047857, #10b981);
+  border-radius: 2px;
+}
+
+.ecofriendly {
+  color: #047857;
+  font-weight: 700;
+  font-size: 18px;
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid #bbf7d0;
+}
+
+.checkout__center {
+  width: 100%;
+  text-align: center;
+}
+
+.orders__empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.orders__empty h3 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.orders__empty p {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.orders__browse-btn {
+  background: linear-gradient(135deg, #047857, #10b981);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.orders__browse-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(4,120,87,0.3);
+}

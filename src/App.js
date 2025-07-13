@@ -10,7 +10,9 @@ import Homegreen from "./Component/Homegreen";
 import NavBarg from "./Component/navbargreen";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EducationSection from "./Component/Educationsection";
-import SustainabilityReportsSection from "./Component/Sustainability";
+import SustainabilityReportsSection from './Component/Sustainability';
+import GreenRewards from './Component/GreenRewards';
+
 import Footer from "./Component/Footer";
 import Orders from "./Component/Orders";
 import Thanks from "./Component/thanks";
@@ -44,6 +46,7 @@ function App() {
           <Route path="/dashboard" element={[<Header />, <NavBarg/>, <Dashboard/>]} />
           <Route path="/product" element={[<Headergreen />, <NavBarg />, <ProductDetails />, <Footer />]}/>
           <Route path="/product1" element={[<Headergreen />, <NavBarg />, <ProductDetails1 />, <Footer />]}/>
+          <Route path="/green-rewards" element={[<Headergreen/>, <NavBarg/>, <GreenRewards/>, <Footer/>]}/>
 
         </Routes>
       </div>
@@ -52,4 +55,3 @@ function App() {
 }
 
 export default App;
-

@@ -273,7 +273,8 @@
 .checkout__clear,
 .checkout__save {
   background: none;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
+  color: #000000;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -417,6 +418,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+}
+
+
+
+.checkout__eco-offer {
+  background: #f0f8f0;
+  border-left: 4px solid #28a745;
+  margin-top: 12px;
 }
 
 /* Recommendation Card Styles */

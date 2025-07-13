@@ -1,49 +1,122 @@
-import React, { useEffect, useState } from 'react';
-import '../Css/Imageslidegreen.css';
+import React, { useState, useEffect } from "react";
+import "../Css/Imageslidegreen.css";
 
 function ImageSliderGreen() {
-  const imgs = [
-    { id: 1, value: '../images/1.jpg' },
-    { id: 2, value: '../images/3.jpg' },
-    { id: 3, value: '../images/4.jpg' },
-    { id: 4, value: '../images/5.jpg' },
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  const slides = [
+    {
+      type: "image",
+      src: "../images/greenWalmart.png",
+      title: "Walmart's Sustainable Future",
+      subtitle: "Leading the way in eco-friendly retail solutions across America",
+      cta: "Shop Green Now"
+    },
+    {
+      type: "image", 
+      src: "../images/seller_banner.jpg",
+      title: "Zero Waste Initiative",
+      subtitle: "Walmart's commitment to sustainable packaging and carbon neutrality by 2040",
+      cta: "Learn More"
+    },
+    {
+      type: "image",
+      src: "../images/SusImage.png", 
+      title: "Renewable Energy",
+      subtitle: "Powering 100% of operations with renewable energy sources",
+      cta: "Browse Collection"
+    },
+    {
+      type: "video",
+      src: "../images/foldbox.mp4",
+      title: "Walmart Greenovation Zone",
+      subtitle: "Smart packaging solutions for a sustainable tomorrow",
+      cta: "Get Started"
+    }
   ];
-  const [val, setVal] = useState(0);
-
-  const handleNext = () => {
-    const index = val < imgs.length - 1 ? val + 1 : 0; // Loop back to the first image.
-    setVal(index);
-  };
-
-  const handlePrev = () => {
-    const index = val > 0 ? val - 1 : imgs.length - 1; // Loop back to the last image.
-    setVal(index);
-  };
 
   useEffect(() => {
-    const interval = setInterval(handleNext, 3000); // Change image every 4 seconds (adjust the time as needed).
+    if (isAutoPlaying) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % slides.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isAutoPlaying, slides.length]);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [val]);
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
+
+  const currentSlide = slides[currentIndex];
 
   return (
-    <div className="main">
-      {imgs[val].type === 'video/mp4' ? (
-        <video className="slidevideo" autoPlay loop muted>
-          <source src={imgs[val].value} type="video/mp4" />
-        </video>
-      ) : (
-        <img className="slideimg" src={imgs[val].value} alt="Image" />
-      )}
-      <div className="slider-controls">
-        <button onClick={handlePrev} className="prev-buttong">
-          <img className="arrowg" src="../images/prev.png"/> 
+    <div className="image__slider">
+      <div className="slide__container">
+        <div className="slide__content">
+          {currentSlide.type === "image" ? (
+            <img 
+              src={currentSlide.src} 
+              alt={currentSlide.title}
+              className="slide__media"
+            />
+          ) : (
+            <video 
+              src={currentSlide.src}
+              autoPlay
+              muted
+              loop
+              className="slide__media"
+            />
+          )}
+
+          <div className="slide__overlay">
+            <div className="slide__text">
+              <h2 className="slide__title">{currentSlide.title}</h2>
+              <p className="slide__subtitle">{currentSlide.subtitle}</p>
+              <button className="slide__cta">{currentSlide.cta}</button>
+            </div>
+          </div>
+        </div>
+
+        <button className="nav__btn prev__btn" onClick={prevSlide}>
+          <img src="../images/prev.png" alt="Previous" className="nav__arrow" />
         </button>
-        <button onClick={handleNext} className="next-buttong">
-        <img className="arrowg" src="../images/next.png"/>
+
+        <button className="nav__btn next__btn" onClick={nextSlide}>
+          <img src="../images/next.png" alt="Next" className="nav__arrow" />
         </button>
+
+        <div className="slide__indicators">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={`indicator ${index === currentIndex ? 'active' : ''}`}
+              onClick={() => goToSlide(index)}
+            />
+          ))}
+        </div>
+
+        <div className="slide__controls">
+          <button 
+            className="autoplay__btn"
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+          >
+            {isAutoPlaying ? "⏸️" : "▶️"}
+          </button>
+          <span className="slide__counter">
+            {currentIndex + 1} / {slides.length}
+          </span>
+        </div>
       </div>
     </div>
   );

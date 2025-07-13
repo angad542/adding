@@ -1,39 +1,43 @@
 /* Walmart-style Subnavbar */
 .amazon-nav {
-  background-color: #ffffff; /* Clean white background like Walmart */
-  color: #004c91; /* Walmart blue text */
+  background: linear-gradient(135deg, #0071ce 0%, #0066b8 50%, #004c91 100%);
+  height: 48px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0 20px;
-  font-size: 13px;
-  font-weight: 400;
-  height: 40px;
-  border-bottom: 1px solid #e6e6e6;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: white;
+  position: sticky;
+  top: 60px;
+  z-index: 99;
+  box-shadow: 
+    0 4px 20px rgba(0,113,206,0.25),
+    0 1px 3px rgba(0,0,0,0.1);
+  border-bottom: 2px solid rgba(255,194,32,0.4);
+  width: 100%;
+  backdrop-filter: blur(10px);
 }
 
 .amazon-nav-section {
   display: flex;
   align-items: center;
+  height: 100%;
+  padding: 0 24px;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .amazon-nav-list {
-  list-style: none;
   display: flex;
-  align-items: center;
-  gap: 24px;
+  list-style: none;
   margin: 0;
   padding: 0;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
   width: 100%;
-}
-
-.amazon-nav-list::-webkit-scrollbar {
-  display: none;
+  font-weight: 400;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 .amazon-nav-list li {
@@ -42,18 +46,37 @@
   font-size: 13px;
 }
 
-.amazon-nav a {
+.amazon-nav-list li a {
+  color: rgba(255,255,255,0.9);
   text-decoration: none;
-  color: #004c91;
-  transition: color 0.2s ease;
-  padding: 8px 0;
-  display: block;
-  font-weight: 400;
+  padding: 12px 16px;
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  backdrop-filter: blur(5px);
 }
 
-.amazon-nav a:hover {
-  color: #0071ce;
-  text-decoration: underline;
+.amazon-nav-list li a:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,194,32,0.1) 100%);
+  color: white;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.amazon-nav-list li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #a7f3d0;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.amazon-nav-list li a:hover::after {
+  width: 80%;
 }
 
 /* Icon-style categories like Departments and Services */
@@ -80,22 +103,47 @@
 
 /* Greenovation Button */
 .button {
-  background-color: #ffc220; /* Walmart yellow */
-  color: #000000;
-  padding: 8px 16px;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
+  color: white;
   border: none;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 13px;
+  padding: 12px 24px;
+  border-radius: 30px;
   cursor: pointer;
-  white-space: nowrap;
-  margin-left: auto;
-  transition: background-color 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
+  font-size: 14px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 6px 20px rgba(22,163,74,0.4),
+    0 2px 4px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.button:hover::before {
+  left: 100%;
 }
 
 .button:hover {
-  background-color: #e6ad00;
+  background: linear-gradient(135deg, #15803d 0%, #16a34a 50%, #22c55e 100%);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 10px 30px rgba(22,163,74,0.5),
+    0 4px 8px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
 /* Popover Styles */
@@ -163,21 +211,34 @@
   .amazon-nav {
     padding: 0 12px;
   }
-  
+
   .amazon-nav-list {
     gap: 16px;
   }
-  
+
   .amazon-nav-list li {
     font-size: 12px;
   }
-  
+
   .button {
     padding: 6px 12px;
     font-size: 12px;
   }
-  
+
   .popover_content_nav {
     width: 250px;
   }
+}
+.amazon-navbar {
+  background-color: #131921;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }

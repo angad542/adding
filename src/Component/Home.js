@@ -1,12 +1,61 @@
 import React, { useState, useEffect } from "react";
 import "../Css/Home.css";
 import Product from "./Product";
-import ImageSlider from "./Imageslider";
 import Productbutton from "./Productbutton";
 import Productbutton1 from "./Productbutton1";
 
 function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  
+  // Create floating particles effect
+  useEffect(() => {
+    const createFloatingParticle = () => {
+      const particle = document.createElement('div');
+      particle.className = 'floating-particle';
+      particle.style.cssText = `
+        position: fixed;
+        width: ${Math.random() * 6 + 2}px;
+        height: ${Math.random() * 6 + 2}px;
+        background: linear-gradient(45deg, #0071ce, #4ade80);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        left: ${Math.random() * 100}vw;
+        top: 100vh;
+        opacity: 0.6;
+        animation: floatUp ${Math.random() * 3 + 4}s linear forwards;
+      `;
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => {
+        if (document.body.contains(particle)) {
+          document.body.removeChild(particle);
+        }
+      }, 7000);
+    };
+
+    const interval = setInterval(createFloatingParticle, 800);
+    
+    // Add CSS for floating animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes floatUp {
+        to {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      clearInterval(interval);
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
+    };
+  }, []);
   
   const carouselImages = [
     {
@@ -47,6 +96,20 @@ function Home() {
   return (
     <div className="home">
       <div className="home__container">
+        {/* Sustainability Hero Section */}
+        <div className="home__hero">
+          <h1>🌱 Shop Sustainably with Walmart</h1>
+          <p>Every purchase makes a difference. Discover eco-friendly products and sustainable shopping solutions.</p>
+          <div className="home__hero-actions">
+            <a href="/green" className="home__action-btn">
+              🌍 Explore Greenovation Zone
+            </a>
+            <a href="/sustainability" className="home__action-btn">
+              📊 View Impact Reports
+            </a>
+          </div>
+        </div>
+
         {/* Main Deals Grid */}
         <div className="home__deals-grid">
           {/* Left Column */}
@@ -300,10 +363,10 @@ function Home() {
 
         {/* Shop Deals Section */}
         <div className="home__shop-deals">
-          <h3>Shop deals</h3>
+          <h3>Shop deals in Electronics, Home & More</h3>
           <div className="home__products-row">
             <div className="home__product-card">
-              <Productbutton
+              <Product
                 id="12321341"
                 title="Disposable Plastic Drinking Straws"
                 price={7.50}
@@ -329,6 +392,36 @@ function Home() {
                 price={598.99}
                 rating={4}
                 image="../images/tablet.jpg"
+                badge_id={0}
+              />
+            </div>
+            <div className="home__product-card">
+              <Product
+                id="90829332"
+                title="Samsung 24-inch Monitor"
+                price={189.99}
+                rating={4}
+                image="../images/monitor.jpg"
+                badge_id={0}
+              />
+            </div>
+            <div className="home__product-card">
+              <Product
+                id="958462"
+                title="Woven Summer Bag"
+                price={19.99}
+                rating={5}
+                image="../images/leatherbag.jpg"
+                badge_id={0}
+              />
+            </div>
+            <div className="home__product-card">
+              <Product
+                id="875615"
+                title="Amazon Echo Dot (4th Gen)"
+                price={39.99}
+                rating={5}
+                image="../images/echo.jpg"
                 badge_id={0}
               />
             </div>

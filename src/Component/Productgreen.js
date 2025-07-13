@@ -2,142 +2,131 @@ import React, { useEffect, useState } from "react";
 import "../Css/Productgreen.css";
 import { useStateValue } from "../StateProvider.js";
 
-function Product({ title, image, id, price, rating, carbon_red, badge_id }) {
+function Productgreen({ id, title, image, price, rating, carbon_red, badge_id }) {
   const [{ basket }, dispatch] = useStateValue();
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [showEcoDetails, setShowEcoDetails] = useState(false);
+  const [carbonSaved, setCarbonSaved] = useState(0);
 
-  console.log("this is >>>>>", basket);
+  useEffect(() => {
+    // Animate carbon reduction counter
+    const interval = setInterval(() => {
+      setCarbonSaved(prev => prev < carbon_red ? prev + 1 : carbon_red);
+    }, 50);
+    return () => clearInterval(interval);
+  }, [carbon_red]);
 
   const addToBasket = () => {
     dispatch({
       type: "ADD_TO_BASKET",
       item: {
-        id,
-        title,
-        image,
-        price,
-        rating,
-        badge_id,
+        id: id,
+        title: title,
+        image: image,
+        price: price,
+        rating: rating,
+        carbon_red: carbon_red,
+        badge_id: badge_id,
       },
     });
   };
 
-  let badge_photo = "";
-  let badge_popover = "";
-
-  if (badge_id === 1) {
-    badge_photo = "../images/badge1.png";
-    badge_popover = "../images/badge1_popover.png";
-  } else if (badge_id === 2) {
-    badge_photo = "../images/badge2.png";
-    badge_popover = "../images/badge2_popover.png";
-  } else if (badge_id === 3) {
-    badge_photo = "../images/badge3.png";
-    badge_popover = "../images/badge3_popover.png";
-  } else if (badge_id === 4) {
-    badge_photo = "../images/badge4.png";
-    badge_popover = "../images/badge4_popover.png";
-  } else if (badge_id === 5) {
-    badge_photo = "../images/badge5.png";
-    badge_popover = "../images/badge5_popover.png";
-  }
-
-  const [isBadgePopoverVisible, setBadgePopoverVisible] = useState(false);
-  const [showInfoPopover, setInfoShowPopover] = useState(false);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
-
-  const showBadgePopover = () => {
-    setDontShowAgain(true);
-    setBadgePopoverVisible(true);
+  const toggleWishlist = () => {
+    setIsWishlisted(!isWishlisted);
   };
 
-  const hideBadgePopover = () => {
-    setBadgePopoverVisible(false);
-  };
-
-  const closeInfoPopover = () => {
-    setDontShowAgain(true);
-    setInfoShowPopover(false);
-  };
-
-  useEffect(() => {
-    const item = document.getElementById("badgeToTrack");
-
-    const handleScroll = () => {
-      const itemRect = item.getBoundingClientRect();
-
-      if (itemRect.top < 650 && itemRect.bottom > 200) {
-        setInfoShowPopover(true);
-      } else {
-        setInfoShowPopover(false);
-      }
+  const getBadgeInfo = (badge_id) => {
+    const badges = {
+      1: { name: "Green Pioneer", color: "#2E7D32", description: "Leading sustainability innovation" },
+      2: { name: "Eco Champion", color: "#388E3C", description: "Outstanding environmental impact" },
+      3: { name: "Earth Friendly", color: "#4CAF50", description: "Certified eco-friendly product" },
+      4: { name: "Sustainable Choice", color: "#66BB6A", description: "Responsibly sourced materials" },
+      5: { name: "Carbon Neutral", color: "#81C784", description: "Net-zero carbon footprint" }
     };
+    return badges[badge_id] || badges[3];
+  };
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const badgeInfo = getBadgeInfo(badge_id);
 
   return (
-    <div className="productg">
-      <div className="product__bestseller">BESTSELLER</div>
+    <div className="product">
+      <div className="product__header">
+        <div className="product__badge" style={{ backgroundColor: badgeInfo.color }}>
+          {badgeInfo.name}
+        </div>
+        <button className="wishlist__btn" onClick={toggleWishlist}>
+          {isWishlisted ? "💚" : "🤍"}
+        </button>
+      </div>
+      
+      <div className="product__image-container">
+        <img src={image} alt={title} />
+        <div className="product__hover-overlay">
+          <button className="quick__view">👁️ Quick View</button>
+        </div>
+      </div>
+      
       <div className="product__info">
-        <p>{title}</p>
-        <div className="product__price">
+        <p className="product__title">{title}</p>
+        <p className="product__price">
           <small>$</small>
           <strong>{price}</strong>
-        </div>
+        </p>
         <div className="product__rating">
           {Array(rating)
             .fill()
-            .map((rate) => (
-              <p>⭐</p>
+            .map((_, i) => (
+              <span key={i}>⭐</span>
             ))}
         </div>
       </div>
-      <img src={image} alt="" />
-      <div className="eco_details">
-        <div className="carbon_details">
-          <img src="../images/co2badge.png" alt="" className="eco_image"></img>
-          <p className="eco_text">{carbon_red}% Less Carbon Emission</p>
-        </div>
-        <div className="badge_details">
-          <div className="popover_trigger">
-            <img
-              id="badgeToTrack"
-              src={badge_photo}
-              alt=""
-              className="eco_image"
-              onMouseEnter={showBadgePopover}
-              onMouseLeave={hideBadgePopover}
-            ></img>
-            {isBadgePopoverVisible && (
-              <div className="popover_content">
-                <div className="content">
-                  <img
-                    src={badge_popover}
-                    className="popover_content_image"
-                  ></img>
-                </div>
-              </div>
-            )}
-            {showInfoPopover && id === "875615" && !dontShowAgain && (
-              <div className="badge_info_popover_content_nav">
-                <div className="badge_info_triangle"></div>
-                <p>Try hovering over the badge to see further details.</p>
-                <button onClick={closeInfoPopover} className="got_it">
-                  Got It
-                </button>
-              </div>
-            )}
+
+      <div className="eco__features">
+        <div className="carbon__impact">
+          <span className="carbon__icon">🌱</span>
+          <div className="carbon__info">
+            <span className="carbon__number">{carbonSaved}%</span>
+            <span className="carbon__label">Carbon Reduced</span>
           </div>
-          <p className="eco_text">Eco-Friendly Badge</p>
         </div>
+        
+        <button 
+          className="eco__details-btn"
+          onClick={() => setShowEcoDetails(!showEcoDetails)}
+        >
+          {showEcoDetails ? "Hide" : "Show"} Eco Details
+        </button>
       </div>
-      <button onClick={addToBasket}>Add to Cart</button>
+
+      {showEcoDetails && (
+        <div className="eco__details-panel">
+          <div className="detail__item">
+            <span className="detail__icon">♻️</span>
+            <span>100% Recyclable</span>
+          </div>
+          <div className="detail__item">
+            <span className="detail__icon">🌿</span>
+            <span>Organic Materials</span>
+          </div>
+          <div className="detail__item">
+            <span className="detail__icon">📦</span>
+            <span>Plastic-Free Packaging</span>
+          </div>
+        </div>
+      )}
+
+      <div className="product__actions">
+        <button className="add__to__cart" onClick={addToBasket}>
+          🛒 Add to Cart
+        </button>
+        <button className="buy__now">
+          ⚡ Buy Now
+        </button>
+      </div>
     </div>
   );
 }
 
-export default Product;
+export default Productgreen;
+
+

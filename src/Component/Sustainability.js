@@ -15,24 +15,23 @@ import "../Css/Sustainability.css";
 function SustainabilityReportsSection() {
   return (
     <div className="Susback">
+      <div className="sustainability-header">
+        <h1>🌍 Sustainability Impact</h1>
+        <p>Leading the retail industry towards a more sustainable future through innovation, responsibility, and environmental stewardship.</p>
+      </div>
+      
       <img src="../images/SusImage.png" alt="" width="100%" />
 
       <div className="links">
       <span className="reports-heading">Sustainability Reports :  </span> 
-        <a href="https://sustainability.aboutamazon.com/2022-sustainability-report.pdf">
-          2022 /
+        <a href="https://sustainabilityreports.com/reports/walmart-inc-2023-esg-highlights-pdf/">
+          2023 /
         </a>
-        <a href="https://sustainability.aboutamazon.com/2021-sustainability-report.pdf">
-           2021 /
+        <a href="https://sustainabilityreports.com/company/walmart-inc/">
+           2022 /
         </a>
-        <a href="https://sustainability.aboutamazon.com/2020-sustainability-report.pdf">
-          2020 /
-        </a>
-        <a href="https://sustainability.aboutamazon.com/2019-sustainability-report.pdf">
-          2019 /
-        </a>
-        <a href="https://sustainability.aboutamazon.com/2018-sustainability-report.pdf">
-          2018
+        <a href="https://sustainabilityreports.com/company/walmart-inc/">
+          2021 /
         </a>
       </div>
       <div className="parameters">

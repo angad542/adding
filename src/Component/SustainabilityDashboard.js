@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+
+import React, { useMemo, useState } from 'react';
 import { useStateValue } from '../StateProvider.js';
 
 // Enhanced sustainability calculation functions
@@ -106,12 +107,11 @@ const estimateCarbonFootprint = (product) => {
   });
   
   if (product.badge_id > 0) {
-    co2 *= 0.6; // Eco-certified products have lower footprint
+    co2 *= 0.6;
   }
   
-  // Local production bonus (assumed for eco products)
   if (product.badge_id > 0) {
-    co2 *= 0.9; // Assume more local sourcing
+    co2 *= 0.9;
   }
   
   return Math.round(co2 * 10) / 10;
@@ -137,7 +137,7 @@ const calculateWaterUsage = (product) => {
   return Math.round(water);
 };
 
-// Helper functions moved outside component
+// Helper functions
 const getSustainabilityGrade = (score) => {
   if (score >= 85) return 'A+';
   if (score >= 75) return 'A';
@@ -181,7 +181,6 @@ const generateRecommendations = (score, basket, ecoCount) => {
 };
 
 const calculateMonthlyImpact = (carbon, water) => {
-  // Assuming average person shops 2-3 times per month
   const monthlyMultiplier = 2.5;
   return {
     carbon: Math.round(carbon * monthlyMultiplier * 10) / 10,
@@ -190,12 +189,12 @@ const calculateMonthlyImpact = (carbon, water) => {
 };
 
 const getScoreColor = (score) => {
-  if (score >= 80) return '#10b981';
-  if (score >= 65) return '#22c55e';
-  if (score >= 50) return '#84cc16';
-  if (score >= 35) return '#eab308';
-  if (score >= 20) return '#f97316';
-  return '#ef4444';
+  if (score >= 80) return '#059669';
+  if (score >= 65) return '#16a34a';
+  if (score >= 50) return '#65a30d';
+  if (score >= 35) return '#ca8a04';
+  if (score >= 20) return '#ea580c';
+  return '#dc2626';
 };
 
 const getGradeEmoji = (grade) => {
@@ -214,6 +213,8 @@ const getGradeEmoji = (grade) => {
 
 const SustainabilityDashboard = () => {
   const [{ basket }] = useStateValue();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [showCarbonOffset, setShowCarbonOffset] = useState(false);
   
   const sustainabilityMetrics = useMemo(() => {
     if (basket.length === 0) {
@@ -271,13 +272,33 @@ const SustainabilityDashboard = () => {
     return (
       <div className="sustainability-dashboard empty">
         <div className="dashboard-header">
-          <h3>🌱 Sustainability Dashboard</h3>
-          <p>Add eco-friendly items to see your environmental impact</p>
+          <div className="header-content">
+            <div className="header-icon">🌱</div>
+            <h3>Sustainability Dashboard</h3>
+            <p>Your environmental impact tracker</p>
+          </div>
         </div>
         <div className="empty-state">
-          <div className="empty-icon">🛒</div>
-          <p>Your cart is empty</p>
-          <small>Start shopping to see your sustainability score!</small>
+          <div className="empty-animation">
+            <div className="tree-icon">🌳</div>
+            <div className="pulse-ring"></div>
+          </div>
+          <h4>Start Your Eco Journey</h4>
+          <p>Add sustainable products to see your positive environmental impact</p>
+          <div className="eco-benefits">
+            <div className="benefit-item">
+              <span className="benefit-icon">🌍</span>
+              <span>Reduce Carbon Footprint</span>
+            </div>
+            <div className="benefit-item">
+              <span className="benefit-icon">💧</span>
+              <span>Save Water</span>
+            </div>
+            <div className="benefit-item">
+              <span className="benefit-icon">♻️</span>
+              <span>Support Recycling</span>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -286,244 +307,603 @@ const SustainabilityDashboard = () => {
   return (
     <div className="sustainability-dashboard">
       <div className="dashboard-header">
-        <h3>🌱 Sustainability Dashboard</h3>
-        <p>Your environmental impact summary</p>
-      </div>
-      
-      <div className="dashboard-metrics">
-        <div className="metric-card score-card">
-          <div className="metric-icon">
-            {getGradeEmoji(sustainabilityMetrics.sustainabilityGrade)}
-          </div>
-          <div className="metric-content">
-            <h4>Sustainability Score</h4>
-            <div className="score-display">
-              <span 
-                className="score-number-large" 
-                style={{ color: getScoreColor(sustainabilityMetrics.averageScore) }}
-              >
-                {sustainabilityMetrics.averageScore}
-              </span>
-              <span className="score-grade">{sustainabilityMetrics.sustainabilityGrade}</span>
-            </div>
-            <div className="score-bar">
-              <div 
-                className="score-fill" 
-                style={{ 
-                  width: `${sustainabilityMetrics.averageScore}%`, 
-                  backgroundColor: getScoreColor(sustainabilityMetrics.averageScore) 
-                }}
-              />
-            </div>
-            <p className="score-description">
-              {sustainabilityMetrics.averageScore >= 80 ? "Outstanding!" :
-               sustainabilityMetrics.averageScore >= 65 ? "Great choices!" :
-               sustainabilityMetrics.averageScore >= 50 ? "Good progress!" :
-               sustainabilityMetrics.averageScore >= 35 ? "Room for improvement" :
-               "Consider eco alternatives"}
-            </p>
-          </div>
+        <div className="header-content">
+          <div className="header-icon animate-pulse">🌱</div>
+          <h3>Sustainability Dashboard</h3>
+          <p>Track your environmental impact and make a difference</p>
         </div>
         
-        <div className="metric-card">
-          <div className="metric-icon">🌍</div>
-          <div className="metric-content">
-            <h4>Carbon Footprint</h4>
-            <div className="carbon-display">
-              <span className="carbon-number">{sustainabilityMetrics.totalCarbon}</span>
-              <span className="carbon-unit">kg CO₂e</span>
-            </div>
-            <div className="monthly-impact">
-              <small>Monthly: ~{sustainabilityMetrics.monthlyImpact.carbon} kg CO₂e</small>
-            </div>
-            <p className="carbon-comparison">
-              {sustainabilityMetrics.totalCarbon < 8 ? 
-                "🌟 Excellent low-carbon choices!" : 
-                sustainabilityMetrics.totalCarbon < 20 ? 
-                "✅ Good environmental impact" : 
-                sustainabilityMetrics.totalCarbon < 40 ?
-                "⚠️ Moderate carbon footprint" :
-                "🚨 High impact - consider offsetting"}
-            </p>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">💧</div>
-          <div className="metric-content">
-            <h4>Water Usage</h4>
-            <div className="water-display">
-              <span className="water-number">{sustainabilityMetrics.totalWater}</span>
-              <span className="water-unit">liters</span>
-            </div>
-            <div className="monthly-impact">
-              <small>Monthly: ~{sustainabilityMetrics.monthlyImpact.water} liters</small>
-            </div>
-            <p className="water-comparison">
-              {sustainabilityMetrics.totalWater < 50 ? 
-                "💧 Water-efficient choices!" : 
-                sustainabilityMetrics.totalWater < 150 ? 
-                "✅ Moderate water usage" : 
-                "⚠️ High water impact"}
-            </p>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">♻️</div>
-          <div className="metric-content">
-            <h4>Eco-Friendly Items</h4>
-            <div className="eco-display">
-              <span className="eco-number">{sustainabilityMetrics.ecoFriendlyCount}</span>
-              <span className="eco-total">/ {basket.length}</span>
-            </div>
-            <div className="eco-percentage">
-              {Math.round((sustainabilityMetrics.ecoFriendlyCount / basket.length) * 100)}% of cart
-            </div>
-            <div className="eco-progress">
-              <div 
-                className="eco-bar" 
-                style={{ 
-                  width: `${(sustainabilityMetrics.ecoFriendlyCount / basket.length) * 100}%`
-                }}
-              />
-            </div>
-          </div>
+        <div className="dashboard-tabs">
+          <button 
+            className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            📊 Overview
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'impact' ? 'active' : ''}`}
+            onClick={() => setActiveTab('impact')}
+          >
+            🌍 Impact
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'insights' ? 'active' : ''}`}
+            onClick={() => setActiveTab('insights')}
+          >
+            💡 Insights
+          </button>
         </div>
       </div>
       
-      <div className="dashboard-insights">
-        <div className="insights-section">
-          <h4>🔍 Sustainability Highlights</h4>
-          <div className="factors-grid">
-            {sustainabilityMetrics.uniqueFactors.length > 0 ? (
-              sustainabilityMetrics.uniqueFactors.map((factor, index) => (
-                <span key={index} className="factor-badge">
-                  ✓ {factor}
-                </span>
-              ))
-            ) : (
-              <span className="factor-badge empty">No eco-features detected</span>
-            )}
-          </div>
-        </div>
-        
-        <div className="insights-section">
-          <h4>💡 Recommendations</h4>
-          <div className="recommendations-list">
-            {sustainabilityMetrics.recommendations.map((rec, index) => (
-              <div key={index} className="recommendation-item">
-                <span className="rec-text">{rec}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="insights-section">
-          <h4>🏆 Environmental Impact</h4>
-          <div className="impact-comparisons">
-            <div className="comparison-item">
-              <span className="comparison-icon">🌳</span>
-              <div className="comparison-content">
-                <span className="comparison-label">Trees needed to offset:</span>
-                <span className="comparison-value">
-                  {Math.max(1, Math.round(sustainabilityMetrics.totalCarbon * 0.037))} trees
-                </span>
+      {activeTab === 'overview' && (
+        <div className="dashboard-content">
+          <div className="hero-metric">
+            <div className="score-visualization">
+              <div className="circular-progress">
+                <svg className="progress-ring" width="200" height="200">
+                  <circle
+                    className="progress-ring-circle-bg"
+                    cx="100"
+                    cy="100"
+                    r="80"
+                  />
+                  <circle
+                    className="progress-ring-circle"
+                    cx="100"
+                    cy="100"
+                    r="80"
+                    style={{
+                      strokeDasharray: `${2 * Math.PI * 80}`,
+                      strokeDashoffset: `${2 * Math.PI * 80 * (1 - sustainabilityMetrics.averageScore / 100)}`,
+                      stroke: getScoreColor(sustainabilityMetrics.averageScore)
+                    }}
+                  />
+                </svg>
+                <div className="score-center">
+                  <span className="score-number">{sustainabilityMetrics.averageScore}</span>
+                  <span className="score-grade">{sustainabilityMetrics.sustainabilityGrade}</span>
+                  <span className="score-label">Eco Score</span>
+                </div>
               </div>
             </div>
-            <div className="comparison-item">
-              <span className="comparison-icon">🚗</span>
-              <div className="comparison-content">
-                <span className="comparison-label">Equivalent driving:</span>
-                <span className="comparison-value">
-                  {Math.round(sustainabilityMetrics.totalCarbon * 2.4)} miles
-                </span>
+            
+            <div className="score-description">
+              <h4>
+                {sustainabilityMetrics.averageScore >= 80 ? "🏆 Outstanding Impact!" :
+                 sustainabilityMetrics.averageScore >= 65 ? "🌟 Great Choices!" :
+                 sustainabilityMetrics.averageScore >= 50 ? "📈 Good Progress!" :
+                 sustainabilityMetrics.averageScore >= 35 ? "⚡ Room for Growth" :
+                 "🌱 Start Your Journey"}
+              </h4>
+              <p>
+                {sustainabilityMetrics.averageScore >= 80 ? "You're making an exceptional environmental impact with your choices!" :
+                 sustainabilityMetrics.averageScore >= 65 ? "Your sustainable choices are making a real difference!" :
+                 sustainabilityMetrics.averageScore >= 50 ? "You're on the right path to sustainability!" :
+                 sustainabilityMetrics.averageScore >= 35 ? "Consider more eco-friendly alternatives to boost your impact" :
+                 "Every sustainable choice counts - start making a difference today!"}
+              </p>
+            </div>
+          </div>
+          
+          <div className="metrics-grid">
+            <div className="metric-card carbon-card">
+              <div className="card-header">
+                <div className="metric-icon">🌍</div>
+                <div className="metric-info">
+                  <h4>Carbon Footprint</h4>
+                  <div className="metric-value">
+                    <span className="value-number">{sustainabilityMetrics.totalCarbon}</span>
+                    <span className="value-unit">kg CO₂e</span>
+                  </div>
+                </div>
+              </div>
+              <div className="card-content">
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill carbon-progress" 
+                    style={{ width: `${Math.min((40 - sustainabilityMetrics.totalCarbon) / 40 * 100, 100)}%` }}
+                  ></div>
+                </div>
+                <p className="metric-insight">
+                  Monthly impact: ~{sustainabilityMetrics.monthlyImpact.carbon} kg CO₂e
+                </p>
+                {sustainabilityMetrics.totalCarbon > 20 && (
+                  <button 
+                    className="offset-button"
+                    onClick={() => setShowCarbonOffset(true)}
+                  >
+                    🌳 Offset Carbon Emissions
+                  </button>
+                )}
               </div>
             </div>
-            <div className="comparison-item">
-              <span className="comparison-icon">🏠</span>
-              <div className="comparison-content">
-                <span className="comparison-label">Home energy equivalent:</span>
-                <span className="comparison-value">
-                  {Math.round(sustainabilityMetrics.totalCarbon * 0.12)} kWh
-                </span>
+            
+            <div className="metric-card water-card">
+              <div className="card-header">
+                <div className="metric-icon">💧</div>
+                <div className="metric-info">
+                  <h4>Water Conservation</h4>
+                  <div className="metric-value">
+                    <span className="value-number">{sustainabilityMetrics.totalWater}</span>
+                    <span className="value-unit">liters saved</span>
+                  </div>
+                </div>
+              </div>
+              <div className="card-content">
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill water-progress" 
+                    style={{ width: `${Math.min((200 - sustainabilityMetrics.totalWater) / 200 * 100, 100)}%` }}
+                  ></div>
+                </div>
+                <p className="metric-insight">
+                  That's enough for {Math.round(sustainabilityMetrics.totalWater / 8)} days of drinking water!
+                </p>
+              </div>
+            </div>
+            
+            <div className="metric-card eco-card">
+              <div className="card-header">
+                <div className="metric-icon">♻️</div>
+                <div className="metric-info">
+                  <h4>Eco Products</h4>
+                  <div className="metric-value">
+                    <span className="value-number">{sustainabilityMetrics.ecoFriendlyCount}</span>
+                    <span className="value-unit">/ {basket.length}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="card-content">
+                <div className="eco-percentage">
+                  {Math.round((sustainabilityMetrics.ecoFriendlyCount / basket.length) * 100)}% of your cart
+                </div>
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill eco-progress" 
+                    style={{ width: `${(sustainabilityMetrics.ecoFriendlyCount / basket.length) * 100}%` }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+      
+      {activeTab === 'impact' && (
+        <div className="dashboard-content">
+          <div className="impact-visualization">
+            <h4>🌍 Your Environmental Impact</h4>
+            <div className="impact-grid">
+              <div className="impact-item">
+                <div className="impact-icon">🌳</div>
+                <div className="impact-content">
+                  <span className="impact-value">
+                    {Math.max(1, Math.round(sustainabilityMetrics.totalCarbon * 0.037))}
+                  </span>
+                  <span className="impact-label">Trees needed to offset your carbon</span>
+                </div>
+              </div>
+              
+              <div className="impact-item">
+                <div className="impact-icon">🚗</div>
+                <div className="impact-content">
+                  <span className="impact-value">
+                    {Math.round(sustainabilityMetrics.totalCarbon * 2.4)}
+                  </span>
+                  <span className="impact-label">Miles of driving equivalent</span>
+                </div>
+              </div>
+              
+              <div className="impact-item">
+                <div className="impact-icon">🏠</div>
+                <div className="impact-content">
+                  <span className="impact-value">
+                    {Math.round(sustainabilityMetrics.totalCarbon * 0.12)}
+                  </span>
+                  <span className="impact-label">kWh of home energy saved</span>
+                </div>
+              </div>
+              
+              <div className="impact-item">
+                <div className="impact-icon">🚰</div>
+                <div className="impact-content">
+                  <span className="impact-value">
+                    {Math.round(sustainabilityMetrics.totalWater / 340)}
+                  </span>
+                  <span className="impact-label">Bathtubs of water conserved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="sustainability-trends">
+            <h4>📈 Sustainability Trends</h4>
+            <div className="trend-cards">
+              <div className="trend-card positive">
+                <span className="trend-icon">📈</span>
+                <span className="trend-text">25% increase in eco-friendly purchases this month</span>
+              </div>
+              <div className="trend-card positive">
+                <span className="trend-icon">🎯</span>
+                <span className="trend-text">On track to save 150kg CO₂ this year</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {activeTab === 'insights' && (
+        <div className="dashboard-content">
+          <div className="insights-grid">
+            <div className="insight-section">
+              <h4>🔍 Sustainability Highlights</h4>
+              <div className="factors-grid">
+                {sustainabilityMetrics.uniqueFactors.length > 0 ? (
+                  sustainabilityMetrics.uniqueFactors.map((factor, index) => (
+                    <div key={index} className="factor-badge">
+                      <span className="badge-icon">✓</span>
+                      <span className="badge-text">{factor}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="factor-badge empty">
+                    <span className="badge-icon">📋</span>
+                    <span className="badge-text">No eco-features detected</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="insight-section">
+              <h4>💡 Smart Recommendations</h4>
+              <div className="recommendations-list">
+                {sustainabilityMetrics.recommendations.map((rec, index) => (
+                  <div key={index} className="recommendation-card">
+                    <div className="rec-content">
+                      <span className="rec-text">{rec}</span>
+                    </div>
+                  </div>
+                ))}
+                <div className="recommendation-card action">
+                  <div className="rec-content">
+                    <span className="rec-text">🎁 Earn Green Points: Complete eco-challenges for rewards!</span>
+                    <button className="action-button">View Challenges</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showCarbonOffset && (
+        <div className="modal-overlay" onClick={() => setShowCarbonOffset(false)}>
+          <div className="carbon-offset-modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>🌳 Carbon Offset Program</h3>
+              <button className="close-button" onClick={() => setShowCarbonOffset(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <p>Offset your {sustainabilityMetrics.totalCarbon} kg CO₂e emissions by planting {Math.max(1, Math.round(sustainabilityMetrics.totalCarbon * 0.037))} trees.</p>
+              <div className="offset-options">
+                <div className="offset-option">
+                  <h4>Tree Planting</h4>
+                  <p>${Math.round(sustainabilityMetrics.totalCarbon * 0.5)}</p>
+                  <button className="offset-btn">Plant Trees</button>
+                </div>
+                <div className="offset-option">
+                  <h4>Renewable Energy</h4>
+                  <p>${Math.round(sustainabilityMetrics.totalCarbon * 0.3)}</p>
+                  <button className="offset-btn">Support Clean Energy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <style jsx>{`
         .sustainability-dashboard {
-          background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-          border-radius: 16px;
-          padding: 24px;
+          background: linear-gradient(135deg, #f0fdf4 0%, #ecfccb 50%, #f0f9ff 100%);
+          border-radius: 24px;
+          padding: 32px;
           margin: 24px 0;
-          border: 1px solid #bbf7d0;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .sustainability-dashboard::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #059669, #16a34a, #65a30d);
         }
         
         .sustainability-dashboard.empty {
           text-align: center;
-          padding: 40px 24px;
+          padding: 60px 32px;
         }
         
         .dashboard-header {
           text-align: center;
+          margin-bottom: 32px;
+        }
+        
+        .header-content {
           margin-bottom: 24px;
+        }
+        
+        .header-icon {
+          font-size: 48px;
+          margin-bottom: 16px;
+          display: inline-block;
+        }
+        
+        .header-icon.animate-pulse {
+          animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
         }
         
         .dashboard-header h3 {
           margin: 0 0 8px 0;
-          color: #059669;
-          font-size: 24px;
-          font-weight: 700;
+          color: #065f46;
+          font-size: 32px;
+          font-weight: 800;
+          background: linear-gradient(135deg, #059669, #16a34a);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
         
         .dashboard-header p {
           margin: 0;
           color: #6b7280;
+          font-size: 16px;
+          font-weight: 500;
+        }
+        
+        .dashboard-tabs {
+          display: flex;
+          gap: 4px;
+          background: rgba(255, 255, 255, 0.7);
+          padding: 6px;
+          border-radius: 16px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          justify-content: center;
+        }
+        
+        .tab-button {
+          background: none;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 12px;
+          cursor: pointer;
           font-size: 14px;
+          font-weight: 600;
+          color: #6b7280;
+          transition: all 0.3s ease;
+          white-space: nowrap;
+        }
+        
+        .tab-button.active {
+          background: linear-gradient(135deg, #059669, #16a34a);
+          color: white;
+          box-shadow: 0 8px 16px rgba(5, 150, 105, 0.3);
+        }
+        
+        .tab-button:hover:not(.active) {
+          background: rgba(5, 150, 105, 0.1);
+          color: #059669;
         }
         
         .empty-state {
-          background: white;
-          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.8);
+          border-radius: 20px;
+          padding: 60px 40px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .empty-animation {
+          position: relative;
+          margin-bottom: 32px;
+          display: inline-block;
+        }
+        
+        .tree-icon {
+          font-size: 80px;
+          position: relative;
+          z-index: 2;
+        }
+        
+        .pulse-ring {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 120px;
+          height: 120px;
+          border: 3px solid #059669;
+          border-radius: 50%;
+          animation: pulse-ring 2s infinite;
+          opacity: 0.6;
+        }
+        
+        @keyframes pulse-ring {
+          0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+        }
+        
+        .empty-state h4 {
+          margin: 0 0 16px 0;
+          color: #065f46;
+          font-size: 24px;
+          font-weight: 700;
+        }
+        
+        .empty-state p {
+          margin: 0 0 32px 0;
+          color: #6b7280;
+          font-size: 16px;
+          line-height: 1.6;
+        }
+        
+        .eco-benefits {
+          display: flex;
+          gap: 24px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        
+        .benefit-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #059669;
+          font-weight: 600;
+          font-size: 14px;
+        }
+        
+        .benefit-icon {
+          font-size: 20px;
+        }
+        
+        .dashboard-content {
+          animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-metric {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
+          border-radius: 24px;
           padding: 40px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          margin-bottom: 32px;
+          display: flex;
+          align-items: center;
+          gap: 40px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
         
-        .empty-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
+        .score-visualization {
+          flex-shrink: 0;
         }
         
-        .dashboard-metrics {
+        .circular-progress {
+          position: relative;
+          width: 200px;
+          height: 200px;
+        }
+        
+        .progress-ring {
+          transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle-bg {
+          fill: none;
+          stroke: #e5e7eb;
+          stroke-width: 12;
+        }
+        
+        .progress-ring-circle {
+          fill: none;
+          stroke-width: 12;
+          stroke-linecap: round;
+          transition: all 1.5s ease-in-out;
+        }
+        
+        .score-center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+        
+        .score-number {
+          display: block;
+          font-size: 36px;
+          font-weight: 800;
+          color: #065f46;
+          line-height: 1;
+        }
+        
+        .score-grade {
+          display: block;
+          font-size: 18px;
+          font-weight: 700;
+          color: #059669;
+          margin: 4px 0;
+        }
+        
+        .score-label {
+          display: block;
+          font-size: 12px;
+          color: #6b7280;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        
+        .score-description {
+          flex: 1;
+        }
+        
+        .score-description h4 {
+          margin: 0 0 16px 0;
+          font-size: 28px;
+          font-weight: 800;
+          color: #065f46;
+        }
+        
+        .score-description p {
+          margin: 0;
+          font-size: 16px;
+          color: #6b7280;
+          line-height: 1.6;
+        }
+        
+        .metrics-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 20px;
-          margin-bottom: 24px;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 24px;
+          margin-bottom: 32px;
         }
         
         .metric-card {
-          background: white;
-          border-radius: 12px;
-          padding: 20px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          display: flex;
-          align-items: flex-start;
-          gap: 16px;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+          border-radius: 20px;
+          padding: 24px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
         }
         
         .metric-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          transform: translateY(-5px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
         
-        .score-card {
-          background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-          border: 2px solid #10b981;
+        .card-header {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 20px;
         }
         
         .metric-icon {
@@ -533,17 +913,16 @@ const SustainabilityDashboard = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f3f4f6;
-          border-radius: 12px;
+          border-radius: 16px;
+          background: linear-gradient(135deg, #f0fdf4, #dcfce7);
           flex-shrink: 0;
         }
         
-        .metric-content {
+        .metric-info {
           flex: 1;
-          min-width: 0;
         }
         
-        .metric-content h4 {
+        .metric-info h4 {
           margin: 0 0 8px 0;
           font-size: 14px;
           color: #6b7280;
@@ -552,248 +931,463 @@ const SustainabilityDashboard = () => {
           letter-spacing: 0.05em;
         }
         
-        .score-display {
+        .metric-value {
           display: flex;
           align-items: baseline;
-          gap: 8px;
-          margin-bottom: 12px;
+          gap: 6px;
         }
         
-        .score-number-large {
-          font-size: 32px;
+        .value-number {
+          font-size: 28px;
           font-weight: 800;
-          line-height: 1;
+          color: #065f46;
         }
         
-        .score-grade {
-          font-size: 20px;
-          font-weight: 700;
+        .value-unit {
+          font-size: 14px;
           color: #6b7280;
-          background: #f3f4f6;
-          padding: 4px 8px;
-          border-radius: 6px;
+          font-weight: 600;
         }
         
-        .score-bar {
+        .card-content {
+          margin-top: 16px;
+        }
+        
+        .progress-bar {
           height: 8px;
           background: #e5e7eb;
           border-radius: 4px;
           overflow: hidden;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
         }
         
-        .score-fill {
+        .progress-fill {
           height: 100%;
-          transition: width 0.6s ease;
           border-radius: 4px;
+          transition: width 1s ease-in-out;
         }
         
-        .score-description {
-          margin: 0;
-          font-size: 12px;
-          color: #6b7280;
-          font-weight: 500;
+        .carbon-progress {
+          background: linear-gradient(90deg, #16a34a, #059669);
         }
         
-        .carbon-display, .water-display {
-          display: flex;
-          align-items: baseline;
-          gap: 4px;
-          margin-bottom: 4px;
-        }
-        
-        .carbon-number, .water-number {
-          font-size: 28px;
-          font-weight: 700;
-          color: #059669;
-        }
-        
-        .carbon-unit, .water-unit {
-          font-size: 14px;
-          color: #6b7280;
-          font-weight: 500;
-        }
-        
-        .monthly-impact {
-          margin-bottom: 8px;
-        }
-        
-        .monthly-impact small {
-          color: #9ca3af;
-          font-size: 11px;
-          font-weight: 500;
-        }
-        
-        .carbon-comparison, .water-comparison {
-          margin: 0;
-          font-size: 12px;
-          color: #6b7280;
-          font-weight: 500;
-        }
-        
-        .eco-display {
-          display: flex;
-          align-items: baseline;
-          gap: 4px;
-          margin-bottom: 4px;
-        }
-        
-        .eco-number {
-          font-size: 28px;
-          font-weight: 700;
-          color: #059669;
-        }
-        
-        .eco-total {
-          font-size: 18px;
-          color: #6b7280;
-          font-weight: 600;
-        }
-        
-        .eco-percentage {
-          font-size: 12px;
-          color: #6b7280;
-          margin-bottom: 8px;
-          font-weight: 500;
+        .water-progress {
+          background: linear-gradient(90deg, #0ea5e9, #0284c7);
         }
         
         .eco-progress {
-          height: 6px;
-          background: #e5e7eb;
-          border-radius: 3px;
-          overflow: hidden;
+          background: linear-gradient(90deg, #059669, #16a34a);
         }
         
-        .eco-bar {
-          height: 100%;
-          background: linear-gradient(90deg, #10b981, #059669);
-          border-radius: 3px;
-          transition: width 0.6s ease;
+        .metric-insight {
+          margin: 0;
+          font-size: 13px;
+          color: #6b7280;
+          font-weight: 500;
         }
         
-        .dashboard-insights {
-          background: white;
-          border-radius: 12px;
-          padding: 24px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .insights-section {
-          margin-bottom: 24px;
-        }
-        
-        .insights-section:last-child {
-          margin-bottom: 0;
-        }
-        
-        .insights-section h4 {
-          margin: 0 0 16px 0;
-          color: #374151;
-          font-size: 16px;
+        .offset-button {
+          background: linear-gradient(135deg, #16a34a, #059669);
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 8px;
+          font-size: 12px;
           font-weight: 600;
+          cursor: pointer;
+          margin-top: 12px;
+          transition: all 0.3s ease;
+        }
+        
+        .offset-button:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+        }
+        
+        .eco-percentage {
+          font-size: 16px;
+          font-weight: 700;
+          color: #059669;
+          margin-bottom: 8px;
+        }
+        
+        .impact-visualization {
+          margin-bottom: 32px;
+        }
+        
+        .impact-visualization h4 {
+          margin: 0 0 24px 0;
+          color: #065f46;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        
+        .impact-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 20px;
+        }
+        
+        .impact-item {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+          border-radius: 16px;
+          padding: 24px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+        
+        .impact-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .impact-icon {
+          font-size: 32px;
+          width: 56px;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+          border-radius: 12px;
+          flex-shrink: 0;
+        }
+        
+        .impact-content {
+          flex: 1;
+        }
+        
+        .impact-value {
+          display: block;
+          font-size: 24px;
+          font-weight: 800;
+          color: #059669;
+          line-height: 1;
+        }
+        
+        .impact-label {
+          display: block;
+          font-size: 13px;
+          color: #6b7280;
+          font-weight: 500;
+          margin-top: 4px;
+        }
+        
+        .sustainability-trends {
+          margin-bottom: 32px;
+        }
+        
+        .sustainability-trends h4 {
+          margin: 0 0 16px 0;
+          color: #065f46;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        
+        .trend-cards {
+          display: flex;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+        
+        .trend-card {
+          background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+          border-radius: 12px;
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border: 1px solid #bbf7d0;
+        }
+        
+        .trend-card.positive {
+          background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+        }
+        
+        .trend-icon {
+          font-size: 20px;
+        }
+        
+        .trend-text {
+          font-size: 14px;
+          font-weight: 600;
+          color: #065f46;
+        }
+        
+        .insights-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+          gap: 32px;
+        }
+        
+        .insight-section {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+          border-radius: 20px;
+          padding: 32px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .insight-section h4 {
+          margin: 0 0 24px 0;
+          color: #065f46;
+          font-size: 20px;
+          font-weight: 700;
         }
         
         .factors-grid {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 12px;
         }
         
         .factor-badge {
-          background: #dcfce7;
-          color: #059669;
-          padding: 6px 12px;
-          border-radius: 6px;
-          font-size: 12px;
-          font-weight: 600;
-          border: 1px solid #bbf7d0;
+          background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+          border: 1px solid #22c55e;
+          border-radius: 12px;
+          padding: 12px 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+        }
+        
+        .factor-badge:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
         }
         
         .factor-badge.empty {
-          background: #f3f4f6;
-          color: #6b7280;
+          background: linear-gradient(135deg, #f9fafb, #f3f4f6);
           border-color: #d1d5db;
+        }
+        
+        .badge-icon {
+          font-weight: 700;
+          color: #059669;
+        }
+        
+        .factor-badge.empty .badge-icon {
+          color: #6b7280;
+        }
+        
+        .badge-text {
+          font-size: 13px;
+          font-weight: 600;
+          color: #065f46;
+        }
+        
+        .factor-badge.empty .badge-text {
+          color: #6b7280;
         }
         
         .recommendations-list {
           display: flex;
           flex-direction: column;
-          gap: 8px;
-        }
-        
-        .recommendation-item {
-          background: #fef3c7;
-          border: 1px solid #fbbf24;
-          border-radius: 8px;
-          padding: 12px;
-          font-size: 14px;
-          color: #92400e;
-          font-weight: 500;
-        }
-        
-        .impact-comparisons {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
           gap: 16px;
         }
         
-        .comparison-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 12px;
-          background: #f9fafb;
-          border-radius: 8px;
-          border: 1px solid #e5e7eb;
+        .recommendation-card {
+          background: linear-gradient(135deg, #fef3c7, #fde68a);
+          border: 1px solid #f59e0b;
+          border-radius: 12px;
+          padding: 20px;
+          transition: all 0.3s ease;
         }
         
-        .comparison-icon {
-          font-size: 24px;
-          width: 40px;
-          height: 40px;
+        .recommendation-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+        }
+        
+        .recommendation-card.action {
+          background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+          border-color: #3b82f6;
+        }
+        
+        .rec-content {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          justify-content: center;
-          background: white;
+          gap: 16px;
+        }
+        
+        .rec-text {
+          font-size: 14px;
+          font-weight: 600;
+          color: #92400e;
+          flex: 1;
+        }
+        
+        .recommendation-card.action .rec-text {
+          color: #1e40af;
+        }
+        
+        .action-button {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          color: white;
+          border: none;
+          padding: 8px 16px;
           border-radius: 8px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
           flex-shrink: 0;
         }
         
-        .comparison-content {
-          flex: 1;
-          min-width: 0;
+        .action-button:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
         
-        .comparison-label {
-          display: block;
-          font-size: 12px;
-          color: #6b7280;
-          font-weight: 500;
-          margin-bottom: 2px;
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          backdrop-filter: blur(4px);
         }
         
-        .comparison-value {
-          display: block;
-          font-size: 14px;
+        .carbon-offset-modal {
+          background: white;
+          border-radius: 20px;
+          padding: 32px;
+          max-width: 500px;
+          width: 90%;
+          max-height: 80vh;
+          overflow-y: auto;
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+        }
+        
+        .modal-header h3 {
+          margin: 0;
+          color: #065f46;
+          font-size: 24px;
           font-weight: 700;
+        }
+        
+        .close-button {
+          background: none;
+          border: none;
+          font-size: 24px;
+          cursor: pointer;
+          color: #6b7280;
+          padding: 4px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+        }
+        
+        .close-button:hover {
+          background: #f3f4f6;
+          color: #374151;
+        }
+        
+        .modal-content p {
+          margin: 0 0 24px 0;
+          color: #6b7280;
+          line-height: 1.6;
+        }
+        
+        .offset-options {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 16px;
+        }
+        
+        .offset-option {
+          background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+          border: 1px solid #bbf7d0;
+          border-radius: 16px;
+          padding: 24px;
+          text-align: center;
+        }
+        
+        .offset-option h4 {
+          margin: 0 0 8px 0;
+          color: #065f46;
+          font-size: 18px;
+          font-weight: 700;
+        }
+        
+        .offset-option p {
+          margin: 0 0 16px 0;
           color: #059669;
+          font-size: 20px;
+          font-weight: 700;
+        }
+        
+        .offset-btn {
+          background: linear-gradient(135deg, #059669, #16a34a);
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 10px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .offset-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
         }
         
         @media (max-width: 768px) {
-          .dashboard-metrics {
-            grid-template-columns: 1fr;
-          }
-          
-          .metric-card {
-            padding: 16px;
-          }
-          
-          .impact-comparisons {
-            grid-template-columns: 1fr;
-          }
-          
           .sustainability-dashboard {
+            padding: 20px;
+          }
+          
+          .hero-metric {
+            flex-direction: column;
+            text-align: center;
+            gap: 24px;
+          }
+          
+          .metrics-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .insights-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .dashboard-tabs {
+            flex-direction: column;
+          }
+          
+          .tab-button {
             padding: 16px;
+          }
+          
+          .impact-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .carbon-offset-modal {
+            padding: 24px;
+            margin: 20px;
+          }
+          
+          .offset-options {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>

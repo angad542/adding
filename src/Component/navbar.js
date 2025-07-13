@@ -48,11 +48,11 @@ const AmazonNavigationBar = () => {
       <div className="amazon-nav-section">
         <ul className="amazon-nav-list">
   <li className="icon-tab">
-    <img src="/icons/grid.png" alt="Departments" height="16" />
+    <img src="/images/grid.png" alt="Departments" height="16" />
     <a href="#">Departments</a>
   </li>
   <li className="icon-tab">
-    <img src="/icons/services.png" alt="Services" height="16" />
+    <img src="/images/grid.png" alt="Services" height="16" />
     <a href="#">Services</a>
   </li>
   <li className="divider">|</li>
